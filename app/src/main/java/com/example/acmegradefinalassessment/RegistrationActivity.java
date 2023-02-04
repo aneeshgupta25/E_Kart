@@ -1,14 +1,25 @@
 package com.example.acmegradefinalassessment;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.EditText;
 
+import com.example.acmegradefinalassessment.utils.InputValidation;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    TextInputEditText name, email, password, confirmPassword;
+    TextInputLayout nameLayout, emailLayout, passwordLayout, confirmPasswordLayout;
+    EditText name, email, password, confirmPassword;
+    CardView buttonRegister;
+    InputValidation inputValidation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,12 +31,89 @@ public class RegistrationActivity extends AppCompatActivity {
         //initialize the views...
         init();
 
+        buttonRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //validate fields
+                if(inputValidation.isInputEditTextFilled(name, nameLayout, "Enter Your Name")
+                && inputValidation.isInputEditTextFilled(email, emailLayout, "Enter Your Email ID")
+                && inputValidation.validateEmail(email, emailLayout)
+                && inputValidation.isInputEditTextFilled(password, passwordLayout, "Enter Password")
+                && inputValidation.isInputEditTextFilled(confirmPassword, confirmPasswordLayout, "Verify Password")
+                && inputValidation.passwordMatcher(password, confirmPassword, confirmPasswordLayout)) {
+                    //navigate to next activity
+                }
+            }
+        });
+
+        name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().trim().length() > 0) {
+                    nameLayout.setError(null);
+                    nameLayout.setErrorEnabled(false);
+                }
+            }
+        });
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().trim().length() > 0) {
+                    emailLayout.setError(null);
+                    emailLayout.setErrorEnabled(false);
+                }
+            }
+        });
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().trim().length() > 0) {
+                    passwordLayout.setError(null);
+                    passwordLayout.setErrorEnabled(false);
+                }
+            }
+        });
+        confirmPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().trim().length() > 0) {
+                    confirmPasswordLayout.setError(null);
+                    confirmPasswordLayout.setErrorEnabled(false);
+                }
+            }
+        });
+
     }
 
     private void init() {
+
+        nameLayout = findViewById(R.id.textInputLayoutName);
+        emailLayout = findViewById(R.id.textInputLayoutEmail);
+        passwordLayout = findViewById(R.id.textInputLayoutPassword);
+        confirmPasswordLayout = findViewById(R.id.textInputLayoutConfirmPassword);
+
         name = findViewById(R.id.textInputEditTextName);
         email = findViewById(R.id.textInputEditTextEmail);
         password = findViewById(R.id.textInputEditTextPassword);
         confirmPassword = findViewById(R.id.textInputEditTextConfirmPassword);
+        buttonRegister = findViewById(R.id.buttonRegister);
+
+        inputValidation = new InputValidation(this);
     }
 }
