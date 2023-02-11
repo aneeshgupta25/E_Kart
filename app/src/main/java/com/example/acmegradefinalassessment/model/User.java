@@ -12,9 +12,9 @@ public class User {
         return name;
     }
     public String getEmail() {
-        return name;
+        return email;
     }
     public String getPassword() {
-        return name;
+        return password;
     }
 }

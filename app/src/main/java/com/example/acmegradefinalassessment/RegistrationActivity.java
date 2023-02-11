@@ -11,7 +11,10 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.acmegradefinalassessment.db.Database;
+import com.example.acmegradefinalassessment.model.User;
 import com.example.acmegradefinalassessment.utils.InputValidation;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -24,6 +27,7 @@ public class RegistrationActivity extends AppCompatActivity {
     CardView buttonRegister;
     InputValidation inputValidation;
     RegistrationActivity activity;
+    Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,32 +59,10 @@ public class RegistrationActivity extends AppCompatActivity {
         buttonRegister = findViewById(R.id.buttonRegister);
 
         inputValidation = new InputValidation(this);
+        db = new Database(activity);
     }
     private void initListeners() {
 
-        buttonRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //validate fields
-                if (inputValidation.isInputEditTextFilled(name, nameLayout, "Enter Your Name")
-                        && inputValidation.isInputEditTextFilled(email, emailLayout, "Enter Your Email ID")
-                        && inputValidation.validateEmail(email, emailLayout)
-                        && inputValidation.isInputEditTextFilled(password, passwordLayout, "Enter Password")
-                        && inputValidation.isInputEditTextFilled(confirmPassword, confirmPasswordLayout, "Verify Password")
-                        && inputValidation.passwordMatcher(password, confirmPassword, confirmPasswordLayout)) {
-                    //navigate to next activity
-
-                }
-            }
-        });
-        textViewAlready.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //login
-                Intent intent = new Intent(activity, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
         name.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -145,6 +127,39 @@ public class RegistrationActivity extends AppCompatActivity {
                 if (s.toString().trim().length() > 0) {
                     confirmPasswordLayout.setErrorEnabled(false);
                 }
+            }
+        });
+
+        buttonRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //validate fields
+                if (inputValidation.isInputEditTextFilled(name, nameLayout, "Enter Your Name")
+                        && inputValidation.isInputEditTextFilled(email, emailLayout, "Enter Your Email ID")
+                        && inputValidation.validateEmail(email, emailLayout)
+                        && inputValidation.isInputEditTextFilled(password, passwordLayout, "Enter Password")
+                        && inputValidation.isInputEditTextFilled(confirmPassword, confirmPasswordLayout, "Verify Password")
+                        && inputValidation.passwordMatcher(password, confirmPassword, confirmPasswordLayout)) {
+                    //check if user already exists
+                    if(db.checkEmailAlreadyExists(email.getText().toString().trim())) {
+                        Toast.makeText(activity, "This email has already been taken", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else {
+                        db.addUserToDB(new User(name.getText().toString().trim(),
+                                                email.getText().toString().trim(),
+                                                password.getText().toString().trim()));
+                        Toast.makeText(activity, "Registration successful!!", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            }
+        });
+        textViewAlready.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //login
+                Intent intent = new Intent(activity, LoginActivity.class);
+                startActivity(intent);
             }
         });
     }

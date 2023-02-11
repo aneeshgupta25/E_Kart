@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -25,16 +26,16 @@ public class Database extends SQLiteOpenHelper {
     private static final String COLUMN_USER_PASSWORD = "user_password";
 
     //sql query to create the users table
-    private String CREATE_TABLE_QUERY = "CREATE TABLE " + TABLE_USER_INFO + "(" +
-            COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COLUMN_USER_NAME + "TEXT, " +
-            COLUMN_USER_EMAIL + "TEXT, " +
-            COLUMN_USER_PASSWORD + "TEXT" +
-            ")";
+    private String CREATE_TABLE_QUERY = "CREATE TABLE " + TABLE_USER_INFO + "("
+            + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COLUMN_USER_NAME + " TEXT,"
+            + COLUMN_USER_EMAIL + " TEXT,"
+            + COLUMN_USER_PASSWORD + " TEXT" +  ")";
     private String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS " + TABLE_USER_INFO;
 
-    public Database(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public Database(@Nullable Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        Log.d("Aneesh", CREATE_TABLE_QUERY);
     }
 
     @Override
