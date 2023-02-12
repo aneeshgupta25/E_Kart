@@ -1,4 +1,4 @@
-package com.example.acmegradefinalassessment;
+package com.example.acmegradefinalassessment.presentation.fragment;
 
 import android.os.Bundle;
 
@@ -6,20 +6,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.acmegradefinalassessment.adapter.FiltersAdapter;
-import com.example.acmegradefinalassessment.adapter.ShoppingAdapter;
-import com.example.acmegradefinalassessment.model.ClothesShoppingList;
-import com.example.acmegradefinalassessment.model.Filter;
-import com.example.acmegradefinalassessment.model.Item;
-import com.example.acmegradefinalassessment.model.ShoppingList;
+import com.example.acmegradefinalassessment.R;
+import com.example.acmegradefinalassessment.presentation.activity.MainActivity;
+import com.example.acmegradefinalassessment.presentation.adapter.FiltersAdapter;
+import com.example.acmegradefinalassessment.presentation.adapter.ShoppingAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class HomeFragment extends Fragment implements FiltersAdapter.onFliterClick, ShoppingAdapter.onItemClick{
 
@@ -27,8 +25,8 @@ public class HomeFragment extends Fragment implements FiltersAdapter.onFliterCli
     ShoppingAdapter shoppingAdapter;
     FiltersAdapter filtersAdapter;
     LinearLayoutManager itemLayoutManager, filterLayoutManager;
-    ShoppingList shoppingList;
-    List<Filter> filerList;
+    MainActivity activity;
+    List<String> filterList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,11 +43,13 @@ public class HomeFragment extends Fragment implements FiltersAdapter.onFliterCli
     }
     private void init(View view) {
 
-        shoppingList = new ShoppingList();
-        filerList = new ArrayList<>();
-        for(Map.Entry<Filter, List<Item>> mapElement: shoppingList.getShoppingList().entrySet()) {
-            filerList.add(mapElement.getKey());
-        }
+        activity = (MainActivity) this.getActivity();
+
+        filterList = new ArrayList<>();
+        filterList.add("CLOTHES");
+        filterList.add("BOOKS");
+        filterList.add("FRUITS");
+        filterList.add("ELECTRONICS");
 
         //initialise both recyclerviews
         itemRecyclerView = view.findViewById(R.id.recyclerViewShopping);
@@ -60,8 +60,8 @@ public class HomeFragment extends Fragment implements FiltersAdapter.onFliterCli
         filterLayoutManager = new LinearLayoutManager(this.getActivity());
         filterLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
-        filtersAdapter = new FiltersAdapter(this.getActivity(), filerList, this);
-        shoppingAdapter = new ShoppingAdapter(this.getActivity(), shoppingList.getShoppingList().get(filerList.get(0)));
+        filtersAdapter = new FiltersAdapter(this.getActivity(), filterList, this);
+        shoppingAdapter = new ShoppingAdapter(this.getActivity(), activity.getRepository().getList(filterList.get(0)), this);
 
         //set adapters and layoutmanagers to recyclers
 
@@ -73,12 +73,13 @@ public class HomeFragment extends Fragment implements FiltersAdapter.onFliterCli
     }
 
     @Override
-    public void onClick(Filter filter) {
-        shoppingAdapter.updateList(shoppingList.getShoppingList().get(filter));
+    public void onClick(String  filter) {
+        shoppingAdapter.updateList(activity.getRepository().getList(filter));
     }
 
     @Override
-    public void updateCart(Item item) {
-
+    public void updateCart(int id, boolean addToCart) {
+        Log.d("ANEESH", id + " -> " + addToCart);
+        activity.getRepository().updateUserCart(id, addToCart);
     }
 }

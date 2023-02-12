@@ -1,4 +1,6 @@
-package com.example.acmegradefinalassessment.model;
+package com.example.acmegradefinalassessment.data.model.lists;
+
+import com.example.acmegradefinalassessment.data.model.Item;
 
 import java.util.ArrayList;
 import java.util.List;

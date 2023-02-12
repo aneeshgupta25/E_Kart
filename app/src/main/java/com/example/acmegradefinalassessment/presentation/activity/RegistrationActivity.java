@@ -1,6 +1,5 @@
-package com.example.acmegradefinalassessment;
+package com.example.acmegradefinalassessment.presentation.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -14,10 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.acmegradefinalassessment.db.Database;
-import com.example.acmegradefinalassessment.model.User;
+import com.example.acmegradefinalassessment.R;
+import com.example.acmegradefinalassessment.data.model.User;
+import com.example.acmegradefinalassessment.repository.RepoImpl;
+import com.example.acmegradefinalassessment.repository.RepoInterface;
 import com.example.acmegradefinalassessment.utils.InputValidation;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -28,17 +28,15 @@ public class RegistrationActivity extends AppCompatActivity {
     CardView buttonRegister;
     InputValidation inputValidation;
     RegistrationActivity activity;
-    Database db;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    RepoInterface repoInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration2);
 
-        //to hide action bar
-        getSupportActionBar().hide();
         //initialize the views...
         init();
         initListeners();
@@ -46,6 +44,8 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void init() {
+
+        repoInterface = new RepoImpl(this);
 
         activity = this;
         textViewAlready = findViewById(R.id.textViewAlready);
@@ -64,7 +64,6 @@ public class RegistrationActivity extends AppCompatActivity {
         inputValidation = new InputValidation(this);
         sharedPreferences = getSharedPreferences("PREF_CONSTANT", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        db = new Database(activity);
     }
     private void initListeners() {
 
@@ -146,14 +145,16 @@ public class RegistrationActivity extends AppCompatActivity {
                         && inputValidation.isInputEditTextFilled(confirmPassword, confirmPasswordLayout, "Verify Password")
                         && inputValidation.passwordMatcher(password, confirmPassword, confirmPasswordLayout)) {
                     //check if user already exists
-                    if(db.checkEmailAlreadyExists(email.getText().toString().trim())) {
+                    if(repoInterface.userExists(email.getText().toString().trim())) {
                         Toast.makeText(activity, "This email has already been taken", Toast.LENGTH_SHORT).show();
                         return;
                     } else {
-                        db.addUserToDB(new User(name.getText().toString().trim(),
+                        repoInterface.registerUser(new User(name.getText().toString().trim(),
                                                 email.getText().toString().trim(),
                                                 password.getText().toString().trim()));
                         Toast.makeText(activity, "Registration successful!!", Toast.LENGTH_SHORT).show();
+                        //setup item database
+                        repoInterface.fillItemCartDatabase();
                         //update shared_preferences
                         saveLoginDetails();
                         //navigate to main activity
@@ -175,6 +176,8 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void saveLoginDetails() {
+        //storing email will help to retrieve the user cart on re-login
+        editor.putString("user_email", email.getText().toString().trim());
         editor.putBoolean("isLoggedIn", true);
         editor.apply();
     }

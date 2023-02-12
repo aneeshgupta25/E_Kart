@@ -1,20 +1,23 @@
-package com.example.acmegradefinalassessment;
+package com.example.acmegradefinalassessment.presentation.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.example.acmegradefinalassessment.R;
+import com.example.acmegradefinalassessment.presentation.fragment.AccountFragment;
+import com.example.acmegradefinalassessment.presentation.fragment.CartFragment;
+import com.example.acmegradefinalassessment.presentation.fragment.HomeFragment;
+import com.example.acmegradefinalassessment.repository.RepoImpl;
+import com.example.acmegradefinalassessment.repository.RepoInterface;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     HomeFragment homeFragment;
     CartFragment cartFragment;
     AccountFragment accountFragment;
+    RepoInterface repoInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+
+        repoInterface = new RepoImpl(this);
+        //fill item cart database with static data
+        repoInterface.fillItemCartDatabase();
         frameLayout = this.findViewById(R.id.frame);
         navigationView = this.findViewById(R.id.navigation_view_drawer);
         topAppBar = this.findViewById(R.id.topAppBar);
@@ -135,5 +143,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    public RepoInterface getRepository() {
+        return repoInterface;
     }
 }

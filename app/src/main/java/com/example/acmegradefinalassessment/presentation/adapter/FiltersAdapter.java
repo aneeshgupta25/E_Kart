@@ -1,6 +1,5 @@
-package com.example.acmegradefinalassessment.adapter;
+package com.example.acmegradefinalassessment.presentation.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -12,18 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.acmegradefinalassessment.HomeFragment;
 import com.example.acmegradefinalassessment.R;
-import com.example.acmegradefinalassessment.model.Filter;
 import java.util.List;
 
 public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FiltersViewHolder> {
 
     Integer currentSelected;
-    List<Filter> list;
+    List<String> list;
     Context context;
     onFliterClick onFliterClick;
-    public FiltersAdapter(Context context, List<Filter> list, onFliterClick onFliterClick) {
+    public FiltersAdapter(Context context, List<String> list, onFliterClick onFliterClick) {
         this.list = list;
         this.context = context;
         currentSelected = 0;
@@ -63,7 +60,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FiltersV
             categoryTextView = itemView.findViewById(R.id.categoryTextView);
             filterCardView = itemView.findViewById(R.id.filterCardView);
         }
-        public void bind(Filter filter, boolean selected) {
+        public void bind(String filter, boolean selected) {
             if(!selected) {
                 filterCardView.setCardBackgroundColor(Color.parseColor("#D1C4E9"));
                 categoryTextView.setTextColor(Color.parseColor("#000000"));
@@ -71,10 +68,10 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FiltersV
                 filterCardView.setCardBackgroundColor(Color.parseColor("#4A148C"));
                 categoryTextView.setTextColor(Color.parseColor("#ffffff"));
             }
-            categoryTextView.setText(filter.getCategory());
+            categoryTextView.setText(filter);
         }
     }
     public interface onFliterClick {
-        public void onClick(Filter filter);
+        public void onClick(String category);
     }
 }

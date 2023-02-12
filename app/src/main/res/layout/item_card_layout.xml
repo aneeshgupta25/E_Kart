@@ -125,7 +125,7 @@
                     android:layout_height="40dp"
                     android:layout_below="@id/textViewPrice"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_baseline_shopping_cart_24" />
+                    android:src="@drawable/ic_baseline_shopping_cart_24_not_addded" />
 
             </RelativeLayout>
 

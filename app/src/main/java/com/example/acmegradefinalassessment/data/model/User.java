@@ -1,4 +1,4 @@
-package com.example.acmegradefinalassessment.model;
+package com.example.acmegradefinalassessment.data.model;
 
 public class User {
     private String name, email, password;

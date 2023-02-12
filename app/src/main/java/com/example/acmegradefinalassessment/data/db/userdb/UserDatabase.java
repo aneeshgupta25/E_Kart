@@ -1,4 +1,4 @@
-package com.example.acmegradefinalassessment.db;
+package com.example.acmegradefinalassessment.data.db.userdb;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,9 +9,9 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.example.acmegradefinalassessment.model.User;
+import com.example.acmegradefinalassessment.data.model.User;
 
-public class Database extends SQLiteOpenHelper {
+public class UserDatabase extends SQLiteOpenHelper implements UserDatabaseInterface{
 
     //database version
     private static final int DATABASE_VERSION = 1;
@@ -33,7 +33,7 @@ public class Database extends SQLiteOpenHelper {
             + COLUMN_USER_PASSWORD + " TEXT" +  ")";
     private String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS " + TABLE_USER_INFO;
 
-    public Database(@Nullable Context context) {
+    public UserDatabase(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         Log.d("Aneesh", CREATE_TABLE_QUERY);
     }
@@ -49,6 +49,7 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_QUERY);
     }
 
+    @Override
     public boolean checkEmailAlreadyExists(String email) {
         //Create database instance
         SQLiteDatabase db = this.getReadableDatabase();
@@ -76,7 +77,7 @@ public class Database extends SQLiteOpenHelper {
         db.close();
         return recordCount > 0;
     }
-
+    @Override
     public void addUserToDB(User user) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues value = new ContentValues();

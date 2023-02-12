@@ -1,4 +1,4 @@
-package com.example.acmegradefinalassessment.model;
+package com.example.acmegradefinalassessment.data.model;
 
 public class Item {
 
@@ -17,28 +17,53 @@ public class Item {
         this.rating = rating;
         addedToCart = false;
     }
-    public int getId() {
+
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDesc() {
         return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public int getPrice() {
         return price;
     }
 
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     public int getDelivery() {
         return delivery;
     }
 
+    public void setDelivery(int delivery) {
+        this.delivery = delivery;
+    }
+
     public Double getRating() {
         return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
     public boolean isAddedToCart() {

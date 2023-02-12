@@ -1,4 +1,4 @@
-package com.example.acmegradefinalassessment;
+package com.example.acmegradefinalassessment.presentation.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.WindowManager;
+
+import com.example.acmegradefinalassessment.R;
 
 public class SplashActivity extends AppCompatActivity {
     //time duration for which splash screen is visible

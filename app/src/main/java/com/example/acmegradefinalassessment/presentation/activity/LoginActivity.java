@@ -1,9 +1,8 @@
-package com.example.acmegradefinalassessment;
+package com.example.acmegradefinalassessment.presentation.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.acmegradefinalassessment.db.Database;
+import com.example.acmegradefinalassessment.R;
+import com.example.acmegradefinalassessment.data.db.userdb.UserDatabase;
 import com.example.acmegradefinalassessment.utils.InputValidation;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     InputValidation inputValidation;
     CardView buttonLogin;
     TextView textViewReg;
-    Database db;
+    UserDatabase db;
     LoginActivity activity;
 
     @Override
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.buttonLogin);
         textViewReg = findViewById(R.id.textViewNewReg);
 
-        db = new Database(this);
+        db = new UserDatabase(this);
         activity = this;
     }
 }
