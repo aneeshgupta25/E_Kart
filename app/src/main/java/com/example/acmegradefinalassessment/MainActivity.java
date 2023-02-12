@@ -9,6 +9,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -34,7 +35,16 @@ public class MainActivity extends AppCompatActivity {
         init();
         setUpToolBar();
         setUpDrawer();
+        setUpHomeFragmentAsDefault();
         setNavigationViewListeners();
+    }
+
+    private void setUpHomeFragmentAsDefault() {
+        navigationView.setCheckedItem(R.id.home);
+        topAppBar.setTitle("HOME");
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame, new HomeFragment())
+                .commit();
     }
 
     private void setUpToolBar() {
@@ -60,6 +70,33 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                // This ensures smooth fallback of the drawer
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                    }
+                },100);
+
+                if(item.getItemId() == navigationView.getCheckedItem().getItemId()) return false;
+
+                switch (item.getItemId()) {
+                    case R.id.home:
+                        navigationView.setCheckedItem(R.id.home);
+                        topAppBar.setTitle("HOME");
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.frame, new HomeFragment())
+                                .commit();
+                        break;
+                    case R.id.cart:
+                        navigationView.setCheckedItem(R.id.cart);
+                        topAppBar.setTitle("CART");
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.frame, new CartFragment())
+                                .commit();
+                        break;
+                }
                 return true;
             }
         });
