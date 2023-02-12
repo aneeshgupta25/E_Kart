@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,6 +29,8 @@ public class RegistrationActivity extends AppCompatActivity {
     InputValidation inputValidation;
     RegistrationActivity activity;
     Database db;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,8 @@ public class RegistrationActivity extends AppCompatActivity {
         buttonRegister = findViewById(R.id.buttonRegister);
 
         inputValidation = new InputValidation(this);
+        sharedPreferences = getSharedPreferences("PREF_CONSTANT", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         db = new Database(activity);
     }
     private void initListeners() {
@@ -149,6 +154,11 @@ public class RegistrationActivity extends AppCompatActivity {
                                                 email.getText().toString().trim(),
                                                 password.getText().toString().trim()));
                         Toast.makeText(activity, "Registration successful!!", Toast.LENGTH_SHORT).show();
+                        //update shared_preferences
+                        saveLoginDetails();
+                        //navigate to main activity
+                        Intent intent = new Intent(activity, MainActivity.class);
+                        startActivity(intent);
                     }
 
                 }
@@ -162,5 +172,10 @@ public class RegistrationActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void saveLoginDetails() {
+        editor.putBoolean("isLoggedIn", true);
+        editor.apply();
     }
 }

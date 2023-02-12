@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.acmegradefinalassessment.db.Database;
 import com.example.acmegradefinalassessment.utils.InputValidation;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -19,6 +22,8 @@ public class LoginActivity extends AppCompatActivity {
     InputValidation inputValidation;
     CardView buttonLogin;
     TextView textViewReg;
+    Database db;
+    LoginActivity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,13 @@ public class LoginActivity extends AppCompatActivity {
                 if(inputValidation.isInputEditTextFilled(mail, mailLayout, "Enter Your Email ID")
                 && inputValidation.validateEmail(mail, mailLayout)) {
                     //further steps
+                    boolean checkIfAccountExists = db.checkEmailAlreadyExists(mail.getText().toString().trim());
+                    if(checkIfAccountExists) {
+                        Intent intent = new Intent(activity, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(activity, "Account doesn't exists!!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -56,5 +68,8 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.textInputEditTextLoginPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         textViewReg = findViewById(R.id.textViewNewReg);
+
+        db = new Database(this);
+        activity = this;
     }
 }
