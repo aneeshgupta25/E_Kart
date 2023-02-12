@@ -26,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout frameLayout;
     NavigationView navigationView;
     MaterialToolbar topAppBar;
+    HomeFragment homeFragment;
+    CartFragment cartFragment;
+    AccountFragment accountFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
         topAppBar = this.findViewById(R.id.topAppBar);
         drawerLayout = this.findViewById(R.id.drawer_layout);
         linearLayout= this.findViewById(R.id.linearLayout);
+        //Avoid creating fragments instances again and again
+        homeFragment = new HomeFragment();
+        cartFragment = new CartFragment();
+        accountFragment = new AccountFragment();
+
     }
 
     private void setUpDrawer() {
@@ -86,14 +94,21 @@ public class MainActivity extends AppCompatActivity {
                         navigationView.setCheckedItem(R.id.home);
                         topAppBar.setTitle("HOME");
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.frame, new HomeFragment())
+                                .replace(R.id.frame, homeFragment)
                                 .commit();
                         break;
                     case R.id.cart:
                         navigationView.setCheckedItem(R.id.cart);
                         topAppBar.setTitle("CART");
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.frame, new CartFragment())
+                                .replace(R.id.frame, cartFragment)
+                                .commit();
+                        break;
+                    case R.id.account_info:
+                        navigationView.setCheckedItem(R.id.account_info);
+                        topAppBar.setTitle("MY PROFILE");
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.frame, accountFragment)
                                 .commit();
                         break;
                 }
@@ -107,6 +122,13 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
+        } else if(navigationView.getCheckedItem().getItemId() != R.id.home) {
+            //update checked item
+            navigationView.setCheckedItem(R.id.home);
+            //display home fragment
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame, homeFragment)
+                    .commit();
         } else {
             super.onBackPressed();
         }
