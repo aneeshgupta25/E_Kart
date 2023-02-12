@@ -10,15 +10,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.acmegradefinalassessment.adapter.FiltersAdapter;
 import com.example.acmegradefinalassessment.adapter.ShoppingAdapter;
 import com.example.acmegradefinalassessment.model.ClothesShoppingList;
+import com.example.acmegradefinalassessment.model.Filter;
+import com.example.acmegradefinalassessment.model.Item;
+import com.example.acmegradefinalassessment.model.ShoppingList;
 
-public class HomeFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-    RecyclerView recyclerView;
+public class HomeFragment extends Fragment implements FiltersAdapter.onFliterClick, ShoppingAdapter.onItemClick{
+
+    RecyclerView itemRecyclerView, filterRecyclerView;
     ShoppingAdapter shoppingAdapter;
-    LinearLayoutManager linearLayoutManager;
-    ClothesShoppingList clothesShoppingList;
+    FiltersAdapter filtersAdapter;
+    LinearLayoutManager itemLayoutManager, filterLayoutManager;
+    ShoppingList shoppingList;
+    List<Filter> filerList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,13 +45,40 @@ public class HomeFragment extends Fragment {
     }
     private void init(View view) {
 
-        clothesShoppingList = new ClothesShoppingList();
+        shoppingList = new ShoppingList();
+        filerList = new ArrayList<>();
+        for(Map.Entry<Filter, List<Item>> mapElement: shoppingList.getShoppingList().entrySet()) {
+            filerList.add(mapElement.getKey());
+        }
 
-        recyclerView = view.findViewById(R.id.recyclerViewShopping);
-        linearLayoutManager = new LinearLayoutManager(this.getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        shoppingAdapter = new ShoppingAdapter(this.getActivity(), clothesShoppingList.getClothesList());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(shoppingAdapter);
+        //initialise both recyclerviews
+        itemRecyclerView = view.findViewById(R.id.recyclerViewShopping);
+        filterRecyclerView = view.findViewById(R.id.recyclerViewFilters);
+        //initialise both layout managers
+        itemLayoutManager = new LinearLayoutManager(this.getActivity());
+        itemLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        filterLayoutManager = new LinearLayoutManager(this.getActivity());
+        filterLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        filtersAdapter = new FiltersAdapter(this.getActivity(), filerList, this);
+        shoppingAdapter = new ShoppingAdapter(this.getActivity(), shoppingList.getShoppingList().get(filerList.get(0)));
+
+        //set adapters and layoutmanagers to recyclers
+
+        itemRecyclerView.setLayoutManager(itemLayoutManager);
+        itemRecyclerView.setAdapter(shoppingAdapter);
+
+        filterRecyclerView.setLayoutManager(filterLayoutManager);
+        filterRecyclerView.setAdapter(filtersAdapter);
+    }
+
+    @Override
+    public void onClick(Filter filter) {
+        shoppingAdapter.updateList(shoppingList.getShoppingList().get(filter));
+    }
+
+    @Override
+    public void updateCart(Item item) {
+
     }
 }

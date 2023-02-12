@@ -12,5 +12,7 @@
 <!--    <My Colors-->
     <color name="purple_800">#6A1B9A</color>
     <color name="purple_900">#4A148C</color>
+    <color name="filter_light_background">#D1C4E9</color>
+    <color name="filter_dark_background">#4A148C</color>
     
 </resources>

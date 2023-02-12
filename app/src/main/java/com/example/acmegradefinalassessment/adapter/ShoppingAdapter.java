@@ -31,6 +31,12 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.Shoppi
     @Override
     public void onBindViewHolder(@NonNull ShoppingViewHolder holder, int position) {
         holder.bind(list.get(position));
+        holder.ratingImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
@@ -59,6 +65,16 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.Shoppi
             ratingTextView.setText(item.getRating() + "");
             priceTextView.setText("\u20B9" + item.getPrice() + "");
         }
+    }
+
+    public void updateList(List<Item> newList) {
+        list = null;
+        list = newList;
+        notifyDataSetChanged();
+    }
+
+    public interface onItemClick {
+        public void updateCart(Item item);
     }
 
 }

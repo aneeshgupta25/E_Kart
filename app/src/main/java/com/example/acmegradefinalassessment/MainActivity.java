@@ -126,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
         } else if(navigationView.getCheckedItem().getItemId() != R.id.home) {
             //update checked item
             navigationView.setCheckedItem(R.id.home);
+            //update title on toolbar back to home
+            getSupportActionBar().setTitle("HOME");
             //display home fragment
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frame, homeFragment)

@@ -10,11 +10,22 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFilters"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_height="62dp"
+            android:orientation="horizontal"
+            tools:listitem="@layout/filter_card_layout" />
+
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewShopping"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/recyclerViewFilters"
             android:layout_margin="10dp"
-            tools:listitem="@layout/item_card_layout"/>
+            tools:listitem="@layout/item_card_layout" />
 
     </RelativeLayout>
 
