@@ -122,7 +122,7 @@ public class ItemCartDatabase extends SQLiteOpenHelper implements ItemCartDataba
     public List<Item> getUserCart() {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM "+ TABLE_ITEM_CART  + " WHERE " + COLUMN_ITEM_ADDED_TO_CART + " = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{"true"});
+        Cursor cursor = db.rawQuery(query, new String[]{"1"});
         List<Item> list = new ArrayList<>();
 
         if(cursor.moveToFirst()) {

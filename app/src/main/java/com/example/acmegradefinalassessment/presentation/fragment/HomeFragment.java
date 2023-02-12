@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.acmegradefinalassessment.R;
 import com.example.acmegradefinalassessment.presentation.activity.MainActivity;
@@ -79,7 +80,11 @@ public class HomeFragment extends Fragment implements FiltersAdapter.onFliterCli
 
     @Override
     public void updateCart(int id, boolean addToCart) {
-        Log.d("ANEESH", id + " -> " + addToCart);
         activity.getRepository().updateUserCart(id, addToCart);
+        if(addToCart) {
+            Toast.makeText(activity, "Item added to cart...", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(activity, "Item removed from cart...", Toast.LENGTH_SHORT).show();
+        }
     }
 }
