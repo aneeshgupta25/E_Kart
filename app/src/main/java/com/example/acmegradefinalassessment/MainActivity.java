@@ -43,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpHomeFragmentAsDefault() {
+        //This will set the text in toolbar to home as a default value
+        getSupportActionBar().setTitle("HOME");
         navigationView.setCheckedItem(R.id.home);
-        topAppBar.setTitle("HOME");
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame, new HomeFragment())
                 .commit();
@@ -52,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpToolBar() {
         setSupportActionBar(topAppBar);
-        topAppBar.setTitle("HOME");
     }
 
     private void init() {
@@ -93,21 +93,21 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.home:
                         navigationView.setCheckedItem(R.id.home);
-                        topAppBar.setTitle("HOME");
+                        getSupportActionBar().setTitle("HOME");
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.frame, homeFragment)
                                 .commit();
                         break;
                     case R.id.cart:
                         navigationView.setCheckedItem(R.id.cart);
-                        topAppBar.setTitle("CART");
+                        getSupportActionBar().setTitle("CART");
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.frame, cartFragment)
                                 .commit();
                         break;
                     case R.id.account_info:
                         navigationView.setCheckedItem(R.id.account_info);
-                        topAppBar.setTitle("MY PROFILE");
+                        getSupportActionBar().setTitle("MY PROFILE");
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.frame, accountFragment)
                                 .commit();
