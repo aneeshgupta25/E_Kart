@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpToolBar() {
         setSupportActionBar(topAppBar);
+        topAppBar.setTitle("HOME");
     }
 
     private void init() {
