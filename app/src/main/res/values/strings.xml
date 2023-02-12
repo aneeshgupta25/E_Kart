@@ -11,4 +11,8 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="welcomeToEkart">WELCOME \n TO \n E-Kart...</string>
     <string name="yourFirstApp">Your First Shopping App..</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="navigation_drawer_open">"Open Navigation Drawer"</string>
+    <string name="navigation_drawer_close">"Close Navigation Drawer"</string>
 </resources>
