@@ -15,9 +15,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.acmegradefinalassessment.R;
+import com.example.acmegradefinalassessment.data.model.Item;
 import com.example.acmegradefinalassessment.presentation.activity.MainActivity;
 import com.example.acmegradefinalassessment.presentation.adapter.ShoppingAdapter;
 import com.example.acmegradefinalassessment.repository.RepoInterface;
+
+import java.util.List;
 
 public class CartFragment extends Fragment implements ShoppingAdapter.onItemClick{
 
@@ -25,6 +28,7 @@ public class CartFragment extends Fragment implements ShoppingAdapter.onItemClic
     LinearLayoutManager linearLayoutManager;
     ShoppingAdapter adapter;
     MainActivity activity;
+    View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +39,7 @@ public class CartFragment extends Fragment implements ShoppingAdapter.onItemClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_cart, container, false);
+        view = inflater.inflate(R.layout.fragment_cart, container, false);
 
         init(view);
 
@@ -47,7 +51,9 @@ public class CartFragment extends Fragment implements ShoppingAdapter.onItemClic
         recyclerView = view.findViewById(R.id.recyclerViewCart);
         linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        adapter = new ShoppingAdapter(activity, activity.getRepository().getUserCart(), this);
+        List<Item> list = activity.getRepository().getUserCart();
+        updateLayout(list);
+        adapter = new ShoppingAdapter(activity, list, this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
     }
@@ -55,7 +61,20 @@ public class CartFragment extends Fragment implements ShoppingAdapter.onItemClic
     @Override
     public void updateCart(int id, boolean addToCart) {
         activity.getRepository().updateUserCart(id, addToCart);
-        adapter.updateList(activity.getRepository().getUserCart());
+        List<Item> list = activity.getRepository().getUserCart();
+        updateLayout(list);
+        adapter.updateList(list);
         Toast.makeText(this.getActivity(), "Item removed from cart...", Toast.LENGTH_SHORT).show();
+    }
+    public void updateLayout(List<Item> list) {
+        if(list.size() == 0) {
+            //hide recyclerview and display image
+            view.findViewById(R.id.recyclerViewCart).setVisibility(View.GONE);
+            view.findViewById(R.id.nothing_added_layout).setVisibility(View.VISIBLE);
+        } else {
+            //hide image and display recyclerview
+            view.findViewById(R.id.nothing_added_layout).setVisibility(View.GONE);
+            view.findViewById(R.id.recyclerViewCart).setVisibility(View.VISIBLE);
+        }
     }
 }

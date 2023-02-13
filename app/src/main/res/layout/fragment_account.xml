@@ -40,7 +40,7 @@
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
                         android:scaleType="centerCrop"
-                        tools:srcCompat="@tools:sample/avatars"/>
+                        android:src="@drawable/profile"/>
 
                 </androidx.cardview.widget.CardView>
 
@@ -53,6 +53,7 @@
                     android:textAlignment="center"
                     android:layout_marginTop="15dp"
                     android:textStyle="bold"
+                    android:textColor="@color/black"
                     android:textSize="25sp"/>
 
             </RelativeLayout>
@@ -126,11 +127,12 @@
                             android:textSize="18sp" />
 
                         <TextView
+                            android:id="@+id/profileNameTextView"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1.5"
-                            android:text="ANEESH GUPTA"
+                            android:text="SAMPLE"
                             android:textSize="15sp"
                             android:layout_marginStart="10dp"/>
 
@@ -180,10 +182,11 @@
                             android:textSize="18sp" />
 
                         <TextView
+                            android:id="@+id/profileEmailTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="aneeshgupta2512@gmail.com"
+                            android:text="sample"
                             android:layout_marginStart="5dp"
                             android:textSize="15sp" />
 

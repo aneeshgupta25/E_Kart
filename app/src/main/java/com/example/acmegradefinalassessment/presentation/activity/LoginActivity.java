@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.example.acmegradefinalassessment.R;
 import com.example.acmegradefinalassessment.data.db.userdb.UserDatabase;
+import com.example.acmegradefinalassessment.repository.RepoImpl;
+import com.example.acmegradefinalassessment.repository.RepoInterface;
 import com.example.acmegradefinalassessment.utils.InputValidation;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -24,6 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     TextView textViewReg;
     UserDatabase db;
     LoginActivity activity;
+    RepoInterface repoInterface;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                     //further steps
                     boolean checkIfAccountExists = db.checkEmailAlreadyExists(mail.getText().toString().trim());
                     if(checkIfAccountExists) {
+                        repoInterface.saveLoginDetails(mail.getText().toString().trim());
                         Intent intent = new Intent(activity, MainActivity.class);
                         startActivity(intent);
                     } else {
@@ -60,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
     private void init() {
+        repoInterface = new RepoImpl(this);
         inputValidation = new InputValidation(this);
 
         mailLayout = findViewById(R.id.textInputLayoutLoginEmail);

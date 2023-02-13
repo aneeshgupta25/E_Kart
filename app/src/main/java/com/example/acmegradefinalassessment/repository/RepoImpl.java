@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.acmegradefinalassessment.data.db.itemdb.ItemCartDatabase;
@@ -29,6 +30,7 @@ public class RepoImpl implements RepoInterface{
     ItemCartDatabaseInterface itemCartDatabaseInterface;
     UserDatabaseInterface userDatabaseInterface;
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     public RepoImpl(Context context) {
         booksShoppingList = new BooksShoppingList();
@@ -40,6 +42,7 @@ public class RepoImpl implements RepoInterface{
         userDatabaseInterface = new UserDatabase(context);
 
         sharedPreferences = context.getSharedPreferences("PREF_CONSTANT", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
     }
 
     @Override
@@ -76,5 +79,23 @@ public class RepoImpl implements RepoInterface{
     @Override
     public void updateUserCart(int id, boolean addToCart) {
         itemCartDatabaseInterface.updateUserCart(id, addToCart);
+    }
+
+    @Override
+    public void saveLoginDetails(String email) {
+        editor.putBoolean("isLoggedIn", true);
+        editor.putString("userName", userDatabaseInterface.getUser(email));
+        editor.putString("userEmail", email);
+        editor.apply();
+    }
+
+    @Override
+    public String getUserName() {
+        return sharedPreferences.getString("userName", "");
+    }
+
+    @Override
+    public String getUserEmail() {
+        return sharedPreferences.getString("userEmail", "");
     }
 }

@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.acmegradefinalassessment.R;
 import com.example.acmegradefinalassessment.data.model.Item;
 import java.util.List;
@@ -55,7 +57,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.Shoppi
 
     class ShoppingViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView, descTextView, deliveryTextView, ratingTextView, priceTextView;
-        ImageView ratingImageView, cartImageView;
+        ImageView ratingImageView, cartImageView, itemImageView;
         public ShoppingViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -66,6 +68,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.Shoppi
             priceTextView = itemView.findViewById(R.id.textViewPrice);
             ratingImageView = itemView.findViewById(R.id.imageViewRating);
             cartImageView = itemView.findViewById(R.id.imageViewCart);
+            itemImageView = itemView.findViewById(R.id.imageViewItem);
         }
 
         private void bind(Item item) {
@@ -74,6 +77,8 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.Shoppi
             deliveryTextView.setText("Delivery " + "\u20B9" + item.getDelivery());
             ratingTextView.setText(item.getRating() + "");
             priceTextView.setText("\u20B9" + item.getPrice() + "");
+
+            Glide.with(context).load(item.getUrl()).into(itemImageView);
 
             if(item.isAddedToCart()) {
                 cartImageView.setImageResource(R.drawable.ic_baseline_shopping_cart_24_added);

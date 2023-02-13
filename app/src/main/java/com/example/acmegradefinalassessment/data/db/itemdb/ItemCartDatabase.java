@@ -68,7 +68,6 @@ public class ItemCartDatabase extends SQLiteOpenHelper implements ItemCartDataba
 
     @Override
     public List<Item> getData(String category) {
-        Log.d("ANEESH GUPTA", "Hello!");
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM "+ TABLE_ITEM_CART  + " WHERE " + COLUMN_ITEM_CATEGORY + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{category});

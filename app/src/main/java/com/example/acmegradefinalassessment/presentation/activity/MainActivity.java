@@ -9,8 +9,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.acmegradefinalassessment.R;
 import com.example.acmegradefinalassessment.presentation.fragment.AccountFragment;
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     CartFragment cartFragment;
     AccountFragment accountFragment;
     RepoInterface repoInterface;
+    View headerView;
+    TextView profileTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +77,16 @@ public class MainActivity extends AppCompatActivity {
         homeFragment = new HomeFragment();
         cartFragment = new CartFragment();
         accountFragment = new AccountFragment();
+        headerView = navigationView.getHeaderView(0);
 
+        profileTextView = headerView.findViewById(R.id.profileTextView);
+        profileTextView.setText(getRepository().getUserName());
     }
 
     private void setUpDrawer() {
         topAppBar.setNavigationOnClickListener(v -> drawerLayout.open());
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        navigationView.getHeaderView(R.id.drawer_layout);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
     }

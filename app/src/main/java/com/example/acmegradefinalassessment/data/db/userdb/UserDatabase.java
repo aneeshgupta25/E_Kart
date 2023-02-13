@@ -13,6 +13,7 @@ import com.example.acmegradefinalassessment.data.model.User;
 
 public class UserDatabase extends SQLiteOpenHelper implements UserDatabaseInterface{
 
+    String userName;
     //database version
     private static final int DATABASE_VERSION = 1;
     //database name
@@ -73,12 +74,14 @@ public class UserDatabase extends SQLiteOpenHelper implements UserDatabaseInterf
                 null
         );
         int recordCount = cursor.getCount();
+        if(userName != null) userName = cursor.getString(1);
         cursor.close();
         db.close();
         return recordCount > 0;
     }
     @Override
     public void addUserToDB(User user) {
+        userName = user.getName();
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues value = new ContentValues();
         value.put(COLUMN_USER_NAME, user.getName());
@@ -86,5 +89,10 @@ public class UserDatabase extends SQLiteOpenHelper implements UserDatabaseInterf
         value.put(COLUMN_USER_PASSWORD, user.getPassword());
         db.insert(TABLE_USER_INFO, null, value);
         db.close();
+    }
+
+    @Override
+    public String getUser(String email) {
+        return userName;
     }
 }

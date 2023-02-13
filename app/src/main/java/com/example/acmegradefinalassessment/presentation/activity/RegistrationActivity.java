@@ -28,8 +28,6 @@ public class RegistrationActivity extends AppCompatActivity {
     CardView buttonRegister;
     InputValidation inputValidation;
     RegistrationActivity activity;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
     RepoInterface repoInterface;
 
     @Override
@@ -62,8 +60,6 @@ public class RegistrationActivity extends AppCompatActivity {
         buttonRegister = findViewById(R.id.buttonRegister);
 
         inputValidation = new InputValidation(this);
-        sharedPreferences = getSharedPreferences("PREF_CONSTANT", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
     }
     private void initListeners() {
 
@@ -156,10 +152,11 @@ public class RegistrationActivity extends AppCompatActivity {
                         //setup item database
                         repoInterface.fillItemCartDatabase();
                         //update shared_preferences
-                        saveLoginDetails();
+                        repoInterface.saveLoginDetails(email.getText().toString().trim());
                         //navigate to main activity
                         Intent intent = new Intent(activity, MainActivity.class);
                         startActivity(intent);
+                        finish();
                     }
 
                 }
@@ -173,12 +170,5 @@ public class RegistrationActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    private void saveLoginDetails() {
-        //storing email will help to retrieve the user cart on re-login
-        editor.putString("user_email", email.getText().toString().trim());
-        editor.putBoolean("isLoggedIn", true);
-        editor.apply();
     }
 }
