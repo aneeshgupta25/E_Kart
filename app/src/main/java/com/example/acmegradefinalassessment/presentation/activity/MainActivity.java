@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.acmegradefinalassessment.R;
-import com.example.acmegradefinalassessment.presentation.fragment.AccountFragment;
+import com.example.acmegradefinalassessment.presentation.fragment.ProfileFragment;
 import com.example.acmegradefinalassessment.presentation.fragment.CartFragment;
 import com.example.acmegradefinalassessment.presentation.fragment.HomeFragment;
 import com.example.acmegradefinalassessment.repository.RepoImpl;
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     MaterialToolbar topAppBar;
     HomeFragment homeFragment;
     CartFragment cartFragment;
-    AccountFragment accountFragment;
+    ProfileFragment accountFragment;
     RepoInterface repoInterface;
     View headerView;
     TextView profileTextView;
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         //Avoid creating fragments instances again and again
         homeFragment = new HomeFragment();
         cartFragment = new CartFragment();
-        accountFragment = new AccountFragment();
+        accountFragment = new ProfileFragment();
         headerView = navigationView.getHeaderView(0);
 
         profileTextView = headerView.findViewById(R.id.profileTextView);
@@ -128,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
                                 .replace(R.id.frame, accountFragment)
                                 .commit();
                         break;
+                    case R.id.sign_out:
+                        repoInterface.logOut(MainActivity.this);
+                        return false;
                 }
                 return true;
             }
@@ -150,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         } else {
             super.onBackPressed();
+            finish();
         }
     }
 

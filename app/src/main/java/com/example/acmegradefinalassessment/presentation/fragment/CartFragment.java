@@ -19,11 +19,13 @@ import com.example.acmegradefinalassessment.data.model.Item;
 import com.example.acmegradefinalassessment.presentation.activity.MainActivity;
 import com.example.acmegradefinalassessment.presentation.adapter.ShoppingAdapter;
 import com.example.acmegradefinalassessment.repository.RepoInterface;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
 public class CartFragment extends Fragment implements ShoppingAdapter.onItemClick{
 
+    MaterialCardView placeOrderButton;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     ShoppingAdapter adapter;
@@ -42,6 +44,7 @@ public class CartFragment extends Fragment implements ShoppingAdapter.onItemClic
         view = inflater.inflate(R.layout.fragment_cart, container, false);
 
         init(view);
+        setListeners();
 
         return view;
     }
@@ -56,6 +59,8 @@ public class CartFragment extends Fragment implements ShoppingAdapter.onItemClic
         adapter = new ShoppingAdapter(activity, list, this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+
+        placeOrderButton = view.findViewById(R.id.buttonPlaceOrder);
     }
 
     @Override
@@ -76,5 +81,13 @@ public class CartFragment extends Fragment implements ShoppingAdapter.onItemClic
             view.findViewById(R.id.nothing_added_layout).setVisibility(View.GONE);
             view.findViewById(R.id.recyclerViewLayout).setVisibility(View.VISIBLE);
         }
+    }
+    private void setListeners() {
+        placeOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.getRepository().placeOrder(activity);
+            }
+        });
     }
 }

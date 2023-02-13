@@ -71,7 +71,7 @@
                     android:layout_height="30dp"
                     app:cardElevation="0dp"
                     android:layout_marginTop="6dp"
-                    android:backgroundTint="#23BB75"
+                    android:backgroundTint="@color/green"
                     app:cardCornerRadius="20dp">
 
                     <RelativeLayout

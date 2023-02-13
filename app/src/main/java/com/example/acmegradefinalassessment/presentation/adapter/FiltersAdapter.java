@@ -62,10 +62,10 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FiltersV
         }
         public void bind(String filter, boolean selected) {
             if(!selected) {
-                filterCardView.setCardBackgroundColor(Color.parseColor("#D1C4E9"));
+                filterCardView.setCardBackgroundColor(Color.parseColor("#F8BBD0"));
                 categoryTextView.setTextColor(Color.parseColor("#000000"));
             } else {
-                filterCardView.setCardBackgroundColor(Color.parseColor("#4A148C"));
+                filterCardView.setCardBackgroundColor(Color.parseColor("#C2185B"));
                 categoryTextView.setTextColor(Color.parseColor("#ffffff"));
             }
             categoryTextView.setText(filter);

@@ -112,7 +112,6 @@ public class ItemCartDatabase extends SQLiteOpenHelper implements ItemCartDataba
 
     @Override
     public void updateUserCart(int id, boolean addToCart) {
-        Log.d("UPDATE", id + " -> " + addToCart + "DB");
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "UPDATE " + TABLE_ITEM_CART + " SET " + COLUMN_ITEM_ADDED_TO_CART + " = " + addToCart+"" + " WHERE "
                 + COLUMN_ITEM_ID + " = " + id+"";
@@ -143,5 +142,11 @@ public class ItemCartDatabase extends SQLiteOpenHelper implements ItemCartDataba
         cursor.close();
         db.close();
         return list;
+    }
+
+    @Override
+    public void clearDB() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.execSQL(DROP_TABLE_QUERY);
     }
 }

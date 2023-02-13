@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.example.acmegradefinalassessment.R;
 import com.example.acmegradefinalassessment.presentation.activity.MainActivity;
 
-public class AccountFragment extends Fragment {
+public class ProfileFragment extends Fragment {
 
     TextView profileNameTextView, profileEmailTextView;
     MainActivity activity;

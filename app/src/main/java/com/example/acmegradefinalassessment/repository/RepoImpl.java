@@ -3,6 +3,7 @@ package com.example.acmegradefinalassessment.repository;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Toast;
@@ -17,6 +18,10 @@ import com.example.acmegradefinalassessment.data.model.lists.ElectronicsShopping
 import com.example.acmegradefinalassessment.data.model.lists.FruitsShoppingList;
 import com.example.acmegradefinalassessment.data.model.Item;
 import com.example.acmegradefinalassessment.data.model.User;
+import com.example.acmegradefinalassessment.presentation.activity.BillingSummaryActivity;
+import com.example.acmegradefinalassessment.presentation.activity.MainActivity;
+import com.example.acmegradefinalassessment.presentation.activity.OrderPlacedActivity;
+import com.example.acmegradefinalassessment.presentation.activity.RegistrationActivity;
 
 import java.util.List;
 
@@ -98,4 +103,75 @@ public class RepoImpl implements RepoInterface{
     public String getUserEmail() {
         return sharedPreferences.getString("userEmail", "");
     }
+
+    @Override
+    public void placeOrder(Context intentContext) {
+        Intent intent = new Intent(intentContext, BillingSummaryActivity.class);
+        intentContext.startActivity(intent);
+    }
+
+    @Override
+    public void checkout(Context context) {
+        Intent intent = new Intent(context, OrderPlacedActivity.class);
+        context.startActivity(intent);
+    }
+
+    @Override
+    public void clearUserCart() {
+        List<Item> list = getUserCart();
+        for(int i = 0; i < list.size(); i++) {
+            Item item = list.get(i);
+            updateUserCart(item.getId(), false);
+        }
+    }
+
+    @Override
+    public void gotToMainActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+    }
+
+    @Override
+    public void logOut(Context context) {
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle("ATTENTION")
+                .setMessage("You really want to go..?\nWe will miss you :(")
+                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        clearSharedPreferences();
+                        clearItemDB();
+                        dialog.dismiss();
+                        gotToRegistrationActivity(context);
+                    }
+                })
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        dialog.show();
+
+    }
+
+    private void gotToRegistrationActivity(Context context) {
+        Intent intent = new Intent(context, RegistrationActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+    }
+
+    private void clearItemDB() {
+        itemCartDatabaseInterface.clearDB();
+    }
+
+    private void clearSharedPreferences() {
+        editor.putBoolean("isLoggedIn", false);
+        editor.putString("userName", "");
+        editor.putString("userEmail", "");
+        editor.apply();
+    }
+
 }

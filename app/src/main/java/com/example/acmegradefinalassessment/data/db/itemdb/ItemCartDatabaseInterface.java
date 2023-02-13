@@ -9,4 +9,5 @@ public interface ItemCartDatabaseInterface {
     public void fillItemsTable(List<Item> list, String category);
     public void updateUserCart(int id, boolean addToCart);
     public List<Item> getUserCart();
+    public void clearDB();
 }
