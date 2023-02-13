@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:scaleType="centerCrop"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:src="@drawable/image2"/>
 
         </androidx.cardview.widget.CardView>
 

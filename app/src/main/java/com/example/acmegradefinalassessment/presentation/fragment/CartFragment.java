@@ -1,5 +1,8 @@
 package com.example.acmegradefinalassessment.presentation.fragment;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.acmegradefinalassessment.R;
 import com.example.acmegradefinalassessment.presentation.activity.MainActivity;
@@ -52,5 +56,6 @@ public class CartFragment extends Fragment implements ShoppingAdapter.onItemClic
     public void updateCart(int id, boolean addToCart) {
         activity.getRepository().updateUserCart(id, addToCart);
         adapter.updateList(activity.getRepository().getUserCart());
+        Toast.makeText(this.getActivity(), "Item removed from cart...", Toast.LENGTH_SHORT).show();
     }
 }

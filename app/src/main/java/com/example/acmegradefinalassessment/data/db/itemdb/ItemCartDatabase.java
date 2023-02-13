@@ -33,6 +33,7 @@ public class ItemCartDatabase extends SQLiteOpenHelper implements ItemCartDataba
     private static final String COLUMN_ITEM_DELIVERY = "item_delivery";
     private static final String COLUMN_ITEM_RATING = "item_rating";
     private static final String COLUMN_ITEM_ADDED_TO_CART = "item_added";
+    private static final String COLUMN_ITEM_URL = "item_url";
 
     //sql query to create the users table
     private String CREATE_TABLE_QUERY = "CREATE TABLE " + TABLE_ITEM_CART + "("
@@ -43,7 +44,8 @@ public class ItemCartDatabase extends SQLiteOpenHelper implements ItemCartDataba
             + COLUMN_ITEM_PRICE + " INTEGER,"
             + COLUMN_ITEM_DELIVERY + " INTEGER,"
             + COLUMN_ITEM_RATING + " REAL,"
-            + COLUMN_ITEM_ADDED_TO_CART + " TEXT" +  ")";
+            + COLUMN_ITEM_ADDED_TO_CART + " TEXT,"
+            + COLUMN_ITEM_URL + " TEXT" + ")";
 
     private String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS " + TABLE_ITEM_CART;
 
@@ -79,9 +81,9 @@ public class ItemCartDatabase extends SQLiteOpenHelper implements ItemCartDataba
                         cursor.getString(3),
                         cursor.getInt(4),
                         cursor.getInt(5),
-                        cursor.getDouble(6));
+                        cursor.getDouble(6),
+                        cursor.getString(8));
                 item.setAddedToCart(cursor.getString(7).equals("1"));
-                Log.d("HEYO!", cursor.getString(0) + " " + cursor.getString(7));
                 list.add(item);
             } while (cursor.moveToNext());
         }
@@ -103,6 +105,7 @@ public class ItemCartDatabase extends SQLiteOpenHelper implements ItemCartDataba
             values.put(COLUMN_ITEM_DELIVERY, item.getDelivery());
             values.put(COLUMN_ITEM_RATING, item.getRating());
             values.put(COLUMN_ITEM_ADDED_TO_CART, item.isAddedToCart());
+            values.put(COLUMN_ITEM_URL, item.getUrl());
             db.insert(TABLE_ITEM_CART, null, values);
         }
         db.close();
@@ -132,7 +135,8 @@ public class ItemCartDatabase extends SQLiteOpenHelper implements ItemCartDataba
                         cursor.getString(3),
                         cursor.getInt(4),
                         cursor.getInt(5),
-                        cursor.getDouble(6));
+                        cursor.getDouble(6),
+                        cursor.getString(8));
                 item.setAddedToCart(cursor.getString(7).equals("1"));
                 list.add(item);
             } while (cursor.moveToNext());

@@ -3,12 +3,12 @@ package com.example.acmegradefinalassessment.data.model;
 public class Item {
 
     Integer id;
-    private String name, desc;
+    private String name, desc, url;
     private int price, delivery;
     private Double rating;
     boolean addedToCart;
 
-    public Item(Integer id, String name, String desc, int price, int delivery, Double rating) {
+    public Item(Integer id, String name, String desc, int price, int delivery, Double rating, String url) {
         this.id = id;
         this.name = name;
         this.desc = desc;
@@ -16,6 +16,7 @@ public class Item {
         this.price = price;
         this.rating = rating;
         addedToCart = false;
+        this.url = url;
     }
 
     public Integer getId() {
@@ -72,6 +73,14 @@ public class Item {
 
     public void setAddedToCart(boolean addedToCart) {
         this.addedToCart = addedToCart;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
 }

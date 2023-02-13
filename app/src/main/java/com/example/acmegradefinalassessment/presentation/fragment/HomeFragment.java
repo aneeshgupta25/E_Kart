@@ -81,10 +81,7 @@ public class HomeFragment extends Fragment implements FiltersAdapter.onFliterCli
     @Override
     public void updateCart(int id, boolean addToCart) {
         activity.getRepository().updateUserCart(id, addToCart);
-        if(addToCart) {
-            Toast.makeText(activity, "Item added to cart...", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(activity, "Item removed from cart...", Toast.LENGTH_SHORT).show();
-        }
+        if(addToCart) Toast.makeText(this.getActivity(), "Item added to cart...", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(this.getActivity(), "Item removed from cart...", Toast.LENGTH_SHORT).show();
     }
 }
