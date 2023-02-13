@@ -69,12 +69,12 @@ public class CartFragment extends Fragment implements ShoppingAdapter.onItemClic
     public void updateLayout(List<Item> list) {
         if(list.size() == 0) {
             //hide recyclerview and display image
-            view.findViewById(R.id.recyclerViewCart).setVisibility(View.GONE);
+            view.findViewById(R.id.recyclerViewLayout).setVisibility(View.GONE);
             view.findViewById(R.id.nothing_added_layout).setVisibility(View.VISIBLE);
         } else {
             //hide image and display recyclerview
             view.findViewById(R.id.nothing_added_layout).setVisibility(View.GONE);
-            view.findViewById(R.id.recyclerViewCart).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.recyclerViewLayout).setVisibility(View.VISIBLE);
         }
     }
 }
